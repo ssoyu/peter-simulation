@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import {
   BarChart,
   Bar,
@@ -140,7 +140,7 @@ const calculateAverages = (org: { [key: string]: Person[] }) => {
 }
 
 export default function Home() {
-  const [people, setPeople] = useState<Person[]>([])
+  const [, setPeople] = useState<Person[]>([])
   const [randomOrg, setRandomOrg] = useState<{ [key: string]: Person[] }>({})
   const [skillOrg, setSkillOrg] = useState<{ [key: string]: Person[] }>({})
   const [chartData, setChartData] = useState<{
@@ -153,7 +153,7 @@ export default function Home() {
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null)
   const [promotionType, setPromotionType] = useState<'flat' | 'hierarchical'>('flat')
 
-  const recalculate = () => {
+  const recalculate = useCallback(() => {
     const team = Array.from({ length: 100 }, (_, i) => generatePerson(i))
     setPeople(team)
 
@@ -178,11 +178,11 @@ export default function Home() {
     }))
     setChartData(merged)
     setSelectedPerson(null)
-  }
+  }, [promotionType])
 
   useEffect(() => {
     recalculate()
-  }, [promotionType])
+  }, [recalculate])
 
   return (
     <main className="p-4 bg-gray-900 text-white min-h-screen">
