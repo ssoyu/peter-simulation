@@ -56,7 +56,7 @@ const generatePerson = (id: number, base = 50): Person => {
 }
 
 const randomPromotion = (people: Person[]) => {
-  let shuffled = [...people].sort(() => Math.random() - 0.5)
+  const shuffled = [...people].sort(() => Math.random() - 0.5)
   const result: { [key: string]: Person[] } = {}
   let index = 0
   for (const layer of LAYERS) {
@@ -91,7 +91,7 @@ const flatSkillBasedPromotion = (people: Person[]) => {
 
 const hierarchicalPromotion = (people: Person[]) => {
   const result: { [key: string]: Person[] } = {}
-  let pool = [...people]
+  const pool = [...people]
 
   for (let i = 0; i < LAYERS.length; i++) {
     const layer = LAYERS[i]
@@ -143,7 +143,13 @@ export default function Home() {
   const [people, setPeople] = useState<Person[]>([])
   const [randomOrg, setRandomOrg] = useState<{ [key: string]: Person[] }>({})
   const [skillOrg, setSkillOrg] = useState<{ [key: string]: Person[] }>({})
-  const [chartData, setChartData] = useState<any[]>([])
+  const [chartData, setChartData] = useState<{
+    layer: string
+    RandomSkill: number
+    RandomTotal: number
+    SkillSkill: number
+    SkillTotal: number
+  }[]>([])
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null)
   const [promotionType, setPromotionType] = useState<'flat' | 'hierarchical'>('flat')
 
